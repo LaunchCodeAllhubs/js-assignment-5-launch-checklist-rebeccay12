@@ -38,13 +38,9 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
    
       if (validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoLevel) === "Empty") {
         alert("All fields are required!");
-      }
-
-      else if  (validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
+      } else if  (validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
         alert("Enter valid information for each field.");
-      }
-
-      else {
+      } else {
         list.style.visibility = "visible";
         pilotStatus.innerHTML= `Pilot: ${pilot} is ready for launch.`
         copilotStatus.innerHTML = `Copilot: ${copilot} is ready for launch.`
@@ -53,39 +49,26 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 //update variable names
 //change inner html of the fuel, cargo, and launch status simultaneously
 //check if fuel bad, cargo good; cargo good, fuel bad; both bad; both good
-
-
-      }
-
-    
-           
-       
-        if (fuelLevel < 10000) {
-          //fuel status- not enough fuel for journey
-          document.getElementById("faultyItems").style.visibility = "visible";
-          //update faultyItems to say shuttle not ready for launch
-          document.getElementById("launchStatus")('Shuttle not ready for launch.')
-          //change color to red
-          launchStatusElement.style.backgroundColor = red
-        }
-        else if (cargoLevel.value > 10000) {
-          //fuel status- too much mass for the shuttle to take off
-          faultyItems.style.visibility = "visible";
-          //change text to "Shuttle not ready for launch."
-          document.getElementById("launchStatus")('Shuttle not ready for launch.')
-         //change color to specific shade of red
-          launchStatusElement.style.backgroundColor = rgb(199, 37, 78)
-          console.log(faultyItems)
-        }
-        else {
+      if (fuelLevel < 10000 && cargoLevel.value > 10000) {
+        launchStatus.innerHTML('Shuttle not ready for launch.')
+        //change color to red
+        launchStatus.style.backgroundColor = red
+      } else if (fuelLevel < 10000 && cargoLevel.value < 10000) {
+        launchStatus.innerHTML('Shuttle not ready for launch.')
+        //change color to red
+        launchStatus.style.backgroundColor = red
+      } else if (fuelLevel > 10000 && cargoLevel.value < 10000) {
+        launchStatus.innerHTML('Shuttle not ready for launch.')
+        //change color to shade of red
+        launchStatus.style.backgroundColor = rgb(199, 37, 78)
+      } else {
           //change launchstatus to green
-          launchStatusElement.style.backgroundColor = rgb(65, 159, 106)
+          launchStatus.style.backgroundColor = rgb(65, 159, 106)
           //change text to shuttle is ready for launch
-          document.getElementById("launchStatus")('Shuttle is ready for launch.')
+          launchStatus.innerHTML('Shuttle is ready for launch.')
         }
-     );
    }
-  )};
+  };
  
 
 async function myFetch() {
@@ -94,12 +77,12 @@ async function myFetch() {
     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
         });
 
-    return planetsReturned;
-    return response.json("https://handlers.education.launchcode.org/static/planets.json");
+    return response.json(planetsReturned);
 }
 
 function pickPlanet(planets) {
-  let planet = myFetch(planetsReturned.name[Math.Random*planetsReturned.length])
+  let numberOfPlanets = planetsReturn.length
+  let planet = myFetch(planetsReturned.name[Math.Random*numberOfPlanets])
 
   return planet
 }
