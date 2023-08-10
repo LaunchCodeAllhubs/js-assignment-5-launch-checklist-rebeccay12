@@ -1,15 +1,4 @@
 
-
-// import { formSubmission } from "./scriptHelper";
-// require("scriptHelper")
-
-const { pickPlanet, addDestinationInfo } = require("./scriptHelper");
-
-// const { myFetch } = require("./scriptHelper");
-
-// Write your JavaScript code here!
-formSubmission(document)
-
 window.addEventListener("load", function() {
 
    let listedPlanets;
@@ -25,4 +14,20 @@ window.addEventListener("load", function() {
        addDestinationInfo (info);
    })
    
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    let list = document.getElementById("faultyItems");
+    let pilotName = document.querySelector("input[name=pilotName]");
+    let pilot = pilotName.value
+    let copilotName = document.querySelector("input[name=copilotName");
+    let copilot = copilotName.value
+    let fuelLevel = document.querySelector("input[name=fuelLevel");
+    let fuel = fuelLevel.value
+    let cargoMass = document.querySelector("input[name=cargoMass");
+    let cargo = cargoMass.value
+
+    formSubmission(document, list, pilot, copilot, fuel, cargo);
+})
+
+
 });

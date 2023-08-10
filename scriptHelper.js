@@ -31,58 +31,36 @@ function validateInput(testInput) {
 }
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-    window.addEventListener("load", function () {
-        let form = document.querySelector("form");
-        form.addEventListener("submit", function(event) {
-          let pilotName = document.querySelector("input[name=pilotName]");
-          let copilotName = document.querySelector("input[name=copilotName");
-          let fuelLevel = document.querySelector("input[name=fuelLevel");
-          let cargoMass = document.querySelector("input[name=cargoMass");
-           if (validateInput(pilotName.value) === "Empty") {
-            alert("All fields are required!");
-            event.preventDefault();
-           }
-           if (validateInput(copilotName.value) === "Empty") {
-            alert("All fields are required!");
-            event.preventDefault();
-           }
+    let pilotStatus = document.getElementById("pilotStatus");
+    let copilotStatus = document.getElementById("copilotStatus");
+    let fuel = document.getElementById("fuelStatus");
+    let cargo = document.getElementById("cargoStatus");
+   
+      if (validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoLevel) === "Empty") {
+        alert("All fields are required!");
+      }
+
+      else if  (validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
+        alert("Enter valid information for each field.");
+      }
+
+      else {
+        list.style.visibility = "visible";
+        pilotStatus.innerHTML= `Pilot: ${pilot} is ready for launch.`
+        copilotStatus.innerHTML = `Copilot: ${copilot} is ready for launch.`
+        let launchStatus = document.getElementById("launchStatus");
+//if the fuel level is less than 10000 and cargo level is less than or equal to 10000, check fuel level and cargo level at the same time
+//update variable names
+//change inner html of the fuel, cargo, and launch status simultaneously
+//check if fuel bad, cargo good; cargo good, fuel bad; both bad; both good
+
+
+      }
+
+    
            
-           if (validateInput(fuelLevel.value) === "Empty") {
-            alert("All fields are required!");
-            event.preventDefault();
-           }
-           if (validateInput(cargoMass.value) === "Empty") {
-            alert("All fields are required!");
-            event.preventDefault();
-           }
-           if (validateInput(pilotName.value) === "Is a Number") {
-            alert("Pilot Name must be a name.")
-            event.preventDefault()
-           }
-           if (validateInput(copilotName.value) === "Is a Number") {
-            alert("Copilot Name must be a name.")
-            event.preventDefault()
-           }
-           if (validateInput(fuelLevel.value) === "Not a Number") {
-            alert("Fuel level input must be a number.");
-            event.preventDefault();
-           }
-           if (validateInput(cargoMass.value) === "Not a Number") {
-            alert("Cargo Mass input must be a number.");
-            event.preventDefault();
-           }
-        const faultyItems = document.getElementById("faultyItems")
-        console.log("AHHH")
-        console.log(faultyItems)
-        const liPilotName = faultyItems.getElementsByTagName("li")[0];
-        liPilotName.textContent = pilotName.value
-        const liCopilotName = faultyItems.getElementsByTagName("li")[1];
-        liCopilotName.textContent = copilotName.value
-        console.log(fuelLevel.value)
-        document.getElementById("faultyItems").style.visibility = "visible";
-        
-        
-        if (fuelLevel.value < 10000) {
+       
+        if (fuelLevel < 10000) {
           //fuel status- not enough fuel for journey
           document.getElementById("faultyItems").style.visibility = "visible";
           //update faultyItems to say shuttle not ready for launch
@@ -90,7 +68,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
           //change color to red
           launchStatusElement.style.backgroundColor = red
         }
-        else if (fuelLevel.value > 10000) {
+        else if (cargoLevel.value > 10000) {
           //fuel status- too much mass for the shuttle to take off
           faultyItems.style.visibility = "visible";
           //change text to "Shuttle not ready for launch."
@@ -105,7 +83,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
           //change text to shuttle is ready for launch
           document.getElementById("launchStatus")('Shuttle is ready for launch.')
         }
-     });
+     );
    }
   )};
  
