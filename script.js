@@ -13,6 +13,8 @@ window.addEventListener("load", function() {
        let info = pickPlanet(planets.name);
        addDestinationInfo (info);
    })
+
+let form = document.getElementById("launchForm")
    
 form.addEventListener("submit", function (event) {
     event.preventDefault();

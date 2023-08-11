@@ -30,42 +30,51 @@ function validateInput(testInput) {
   } 
 }
 
-function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
+function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
     let pilotStatus = document.getElementById("pilotStatus");
     let copilotStatus = document.getElementById("copilotStatus");
     let fuel = document.getElementById("fuelStatus");
     let cargo = document.getElementById("cargoStatus");
    
-      if (validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoLevel) === "Empty") {
+      if (validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoMass) === "Empty") {
         alert("All fields are required!");
-      } else if  (validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
+      } else if  (validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput(cargoMass) === "Not a Number") {
         alert("Enter valid information for each field.");
       } else {
         list.style.visibility = "visible";
-        pilotStatus.innerHTML= `Pilot: ${pilot} is ready for launch.`
-        copilotStatus.innerHTML = `Copilot: ${copilot} is ready for launch.`
+        pilotStatus.innerHTML= `Pilot ${pilot} is ready for launch.`
+        copilotStatus.innerHTML = `Copilot ${copilot} is ready for launch.`
         let launchStatus = document.getElementById("launchStatus");
 //if the fuel level is less than 10000 and cargo level is less than or equal to 10000, check fuel level and cargo level at the same time
 //update variable names
 //change inner html of the fuel, cargo, and launch status simultaneously
 //check if fuel bad, cargo good; cargo good, fuel bad; both bad; both good
-      if (fuelLevel < 10000 && cargoLevel.value > 10000) {
-        launchStatus.innerHTML('Shuttle not ready for launch.')
+      if (fuelLevel < 10000 && cargoMass > 10000) {
+        //update both fuel and cargo won't work
+        fuel.innerHTML = ('Fuel level too low for launch.')
+        cargo.innerHTML = ('Cargo mass too high for launch.')
         //change color to red
-        launchStatus.style.backgroundColor = red
-      } else if (fuelLevel < 10000 && cargoLevel.value < 10000) {
-        launchStatus.innerHTML('Shuttle not ready for launch.')
+        launchStatus.style.color = "red"
+        launchStatus.innerHTML = "Shuttle not ready for launch."
+      } else if (fuelLevel < 10000 && cargoMass < 10000) {
+        fuel.innerHTML = ('Fuel level too low for launch.')
         //change color to red
-        launchStatus.style.backgroundColor = red
-      } else if (fuelLevel > 10000 && cargoLevel.value < 10000) {
-        launchStatus.innerHTML('Shuttle not ready for launch.')
+        launchStatus.style.color = "red"
+        launchStatus.innerHTML = "Shuttle not ready for launch."
+      } else if (fuelLevel > 10000 && cargoMass > 10000) {
+        cargo.innerHTML = ('Cargo mass too high for launch.')
         //change color to shade of red
-        launchStatus.style.backgroundColor = rgb(199, 37, 78)
-      } else {
+        launchStatus.style.color = "rgb(199, 37, 78)"
+        launchStatus.innerHTML = "Shuttle not ready for launch."
+      } else if (fuelLevel > 10000 && cargoMass < 10000) {
           //change launchstatus to green
-          launchStatus.style.backgroundColor = rgb(65, 159, 106)
-          //change text to shuttle is ready for launch
-          launchStatus.innerHTML('Shuttle is ready for launch.')
+          launchStatus.style.color = "rgb(65, 159, 106)"
+          launchStatus.innerHTML = "Shuttle is ready for launch."
+          //keep text to shuttle is ready for launch, don't need to change in innerHTML
+        // } else {
+        //   console.log("error")
+        //   console.log(fuelLevel)
+        //   console.log(cargoMass)
         }
    }
   };
