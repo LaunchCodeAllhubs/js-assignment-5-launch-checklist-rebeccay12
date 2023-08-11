@@ -4,7 +4,23 @@ require('isomorphic-fetch');
 
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
-   // Here is the HTML formatting for our mission target div.
+  let missionDestination = document.getElementById("missionTarget")
+  missionDestination.innerHTML = `<h2>Mission Destination</h2>
+  <ol>
+      <li>Name: ${name}</li>
+      <li>Diameter: ${diameter}</li>
+      <li>Star: ${star}</li>
+      <li>Distance from Earth: ${distance} </li>
+      <li>Number of Moons: ${moons} </li>
+  </ol>
+  <img src="${imageUrl}">`
+  
+  
+  
+  
+  
+  
+  // Here is the HTML formatting for our mission target div.
    /*
                 <h2>Mission Destination</h2>
                 <ol>
@@ -49,25 +65,35 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
 //update variable names
 //change inner html of the fuel, cargo, and launch status simultaneously
 //check if fuel bad, cargo good; cargo good, fuel bad; both bad; both good
-      if (fuelLevel < 10000 && cargoMass > 10000) {
+      if (fuelLevel < 10000 && cargoMass <= 10000) {
         //update both fuel and cargo won't work
+        console.log('fuel level is: ' + fuelLevel + ' and is type ' + typeof fuelLevel)
+        console.log('cargo level is: ' + cargoMass + ' and is type ' + typeof cargoMass)
         fuel.innerHTML = ('Fuel level too low for launch.')
-        cargo.innerHTML = ('Cargo mass too high for launch.')
+        cargo.innerHTML = ('Cargo mass low enough for launch.')
         //change color to red
         launchStatus.style.color = "red"
         launchStatus.innerHTML = "Shuttle not ready for launch."
-      } else if (fuelLevel < 10000 && cargoMass < 10000) {
-        fuel.innerHTML = ('Fuel level too low for launch.')
-        //change color to red
-        launchStatus.style.color = "red"
-        launchStatus.innerHTML = "Shuttle not ready for launch."
-      } else if (fuelLevel > 10000 && cargoMass > 10000) {
+      } if (cargoMass > 10000 && fuelLevel >= 10000) {
+        console.log('fuel level is: ' + fuelLevel + ' and is type ' + typeof fuelLevel)
+        console.log('cargo level is: ' + cargoMass + ' and is type ' + typeof cargoMass)
         cargo.innerHTML = ('Cargo mass too high for launch.')
-        //change color to shade of red
+        fuel.innerHTML = ('Fuel level high enough for launch.')
         launchStatus.style.color = "rgb(199, 37, 78)"
         launchStatus.innerHTML = "Shuttle not ready for launch."
-      } else if (fuelLevel > 10000 && cargoMass < 10000) {
+      } if (fuelLevel < 10000 && cargoMass > 10000) {
+        console.log('fuel level is: ' + fuelLevel + ' and is type ' + typeof fuelLevel)
+        console.log('cargo level is: ' + cargoMass + ' and is type ' + typeof cargoMass)
+        fuel.innerHTML = ('Fuel level too low for launch.')
+        cargo.innerHTML = ('Cargo mass too high for launch.')
+        launchStatus.style.color = "red"
+        launchStatus.innerHTML = "Shuttle not ready for launch."
+      }if (fuelLevel >= 10000 && cargoMass <= 10000) {
+        console.log('fuel level is: ' + fuelLevel + ' and is type ' + typeof fuelLevel)
+        console.log('cargo level is: ' + cargoMass + ' and is type ' + typeof cargoMass)
           //change launchstatus to green
+          fuel.innerHTML = ('Fuel level high enough for launch.')
+          cargo.innerHTML = ('Cargo mass low enough for launch.')
           launchStatus.style.color = "rgb(65, 159, 106)"
           launchStatus.innerHTML = "Shuttle is ready for launch."
           //keep text to shuttle is ready for launch, don't need to change in innerHTML
@@ -81,19 +107,20 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
  
 
 async function myFetch() {
-    let planetsReturned;
 
-    planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
-        });
+    let planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
+      return response.json();
+  });
 
-    return response.json(planetsReturned);
+
+    return planetsReturned;
 }
 
 function pickPlanet(planets) {
-  let numberOfPlanets = planetsReturn.length
-  let planet = myFetch(planetsReturned.name[Math.Random*numberOfPlanets])
+  
+  let planet = Math.floor(Math.random() * planets.length)
 
-  return planet
+  return planets[planet];
 }
 
 module.exports.addDestinationInfo = addDestinationInfo;
